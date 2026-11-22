@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FBF6EE" />
+  <title>Pilih jam ambil - SmartCanteen Rush</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slot.css" />
+</head>
+<body data-page="slot">
+  <main class="page">
+    <header class="topbar">
+      <button class="back" type="button" data-href="menu.html" aria-label="Kembali">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 1.5L2 8l6.5 6.5" /></svg>
+      </button>
+      <h1 class="title">Pilih jam ambil</h1>
+    </header>
+
+    <section class="order">
+      <div class="order-thumb"><img class="order-img" id="orderImg" alt="" /></div>
+      <div class="order-info">
+        <div class="order-name" id="orderName">Nama kios</div>
+        <div class="muted" id="orderCount">0 item</div>
+      </div>
+      <a class="change" id="changeLink" href="menu.html" data-href="menu.html">Ubah</a>
+    </section>
+
+    <section class="block">
+      <h2 class="heading">Pilih jam ambil</h2>
+      <p class="muted">Hari ini</p>
+      <div class="slots" id="slots" role="radiogroup" aria-label="Slot jam ambil">
+        <button class="slot is-full" type="button" role="radio" aria-checked="false" data-time="11.00" disabled><span class="slot-time">11.00</span><span class="slot-note">Penuh</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="11.15"><span class="slot-time">11.15</span><span class="slot-note">Sisa 5</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="11.30"><span class="slot-time">11.30</span><span class="slot-note">Sisa 4</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="11.45"><span class="slot-time">11.45</span><span class="slot-note">Sisa 6</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="12.00"><span class="slot-time">12.00</span><span class="slot-note">Sisa 3</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="12.15"><span class="slot-time">12.15</span><span class="slot-note">Sisa 5</span></button>
+        <button class="slot slot-warn" type="button" role="radio" aria-checked="false" data-time="12.30"><span class="slot-time">12.30</span><span class="slot-note">Hampir penuh</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="12.45"><span class="slot-time">12.45</span><span class="slot-note">Sisa 6</span></button>
+        <button class="slot" type="button" role="radio" aria-checked="false" data-time="13.00"><span class="slot-time">13.00</span><span class="slot-note">Sisa 8</span></button>
+      </div>
+      <p class="muted hint">Pesanan siap sekitar 10 menit sebelum jam ambil.</p>
+    </section>
+
+    <section class="block">
+      <h2 class="heading">Catatan untuk kios</h2>
+      <input class="note" id="noteInput" type="text" placeholder="Contoh: tanpa sambal" maxlength="120" autocomplete="off" />
+    </section>
+
+    <section class="block">
+      <h2 class="heading">Metode pembayaran</h2>
+      <div class="pay-list">
+        <label class="pay"><input type="radio" name="pay" value="qris" checked /><span class="radio"></span><span class="pay-name">QRIS</span></label>
+        <label class="pay"><input type="radio" name="pay" value="kasir" /><span class="radio"></span><span class="pay-name">Bayar di kasir</span></label>
+        <label class="pay"><input type="radio" name="pay" value="ewallet" /><span class="radio"></span><span class="pay-name">Dompet digital</span></label>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="heading">Rincian pembayaran</h2>
+      <div class="summary">
+        <div class="row"><span class="muted-14" id="subLabel">Subtotal (0 item)</span><span class="value" id="subValue">Rp 0</span></div>
+        <hr />
+        <div class="row total"><span>Total</span><span class="accent" id="totalValue">Rp 0</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cartbar">
+    <button class="cartbar-btn" id="confirmBtn" type="button">
+      <span class="cb-info">
+        <small>Total</small>
+        <b id="barTotal">Rp 0</b>
+      </span>
+      <span class="cb-action">Konfirmasi pesanan
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+      </span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FBF6EE" />
+  <title>Menu - SmartCanteen Rush</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="menu.css" />
+</head>
+<body data-page="menu">
+  <main class="page">
+    <header class="topbar">
+      <button class="icon-btn" type="button" data-href="index.html" aria-label="Kembali">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 1.5L2 8l6.5 6.5" /></svg>
+      </button>
+      <h1 id="topTitle">Menu</h1>
+      <button class="icon-btn icon-btn-muted" id="searchToggle" type="button" aria-label="Cari menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="M16 16l5 5" /></svg>
+      </button>
+    </header>
+
+    <div class="searchbar" id="menuSearchBar" hidden>
+      <input id="menuSearch" type="search" placeholder="Cari menu di kios ini" autocomplete="off" aria-label="Cari menu" />
+    </div>
+
+    <section class="restaurant">
+      <div class="restaurant-img"><img id="stallImg" alt="" /></div>
+      <div class="restaurant-info">
+        <h2 id="stallName">Nama kios</h2>
+        <p id="stallPrep"></p>
+        <p id="stallRating"></p>
+      </div>
+      <span class="badge-open">Buka</span>
+    </section>
+
+    <nav class="tabs" id="tabs" aria-label="Kategori menu"></nav>
+
+    <div id="menuList"></div>
+  </main>
+
+  <div class="cartbar" id="cartBar">
+    <button class="cartbar-btn" id="cartBarBtn" type="button">
+      <span class="cb-info">
+        <small id="barInfo">Belum ada item</small>
+        <b id="barTotal">Rp 0</b>
+      </span>
+      <span class="cb-action"><span id="barAction">Pilih jam ambil</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+      </span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

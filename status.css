@@ -1,0 +1,268 @@
+/* SmartCanteen Rush — Status Pesanan (status.html) */
+/* ==========================================================================
+   BASE — token, reset, shell halaman, toast
+   (blok ini sengaja sama di setiap file CSS agar tiap halaman mandiri)
+   ========================================================================== */
+:root {
+  --canvas: #EFE4D3;
+  --bg: #FBF6EE;
+  --card: #FFFFFF;
+  --ink: #2B1D14;
+  --muted: #6B5B4E;
+  --border: #EADFCF;
+  --accent: #C2410C;
+  --accent-dark: #9A3412;
+  --accent-soft: #FDE7D6;
+  --tan: #C9A27A;
+  --green: #166534;
+  --green-bg: #DCFCE7;
+  --blue: #1E40AF;
+  --blue-bg: #DBEAFE;
+  --disabled: #EEE8DF;
+  --shadow-sm: 0 1px 2px rgba(43, 29, 20, 0.06);
+  --shadow-md: 0 10px 24px -10px rgba(43, 29, 20, 0.25);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --w: 428px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: "Nunito", -apple-system, Roboto, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  line-height: 1.35;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile-first: lebar penuh di HP, kolom 428px di tengah layar saat di desktop */
+.page {
+  width: 100%;
+  max-width: var(--w);
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--bg);
+  position: relative;
+}
+@media (min-width: 480px) {
+  .page { box-shadow: 0 0 0 1px var(--border), 0 24px 60px -24px rgba(43, 29, 20, 0.3); }
+}
+
+button, input { font: inherit; color: inherit; }
+button { border: 0; background: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  z-index: 100;
+  max-width: calc(100% - 36px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* ==========================================================================
+   HALAMAN
+   ========================================================================== */
+
+.page { padding: 28px 18px 96px; }
+.content { display: flex; flex-direction: column; gap: 14px; }
+
+.title { font-size: 24px; font-weight: 800; line-height: 1.3; }
+.subtitle { font-size: 14px; color: var(--muted); margin: 0 0 2px; }
+.page > .title + .card { margin-top: 16px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 17px;
+}
+
+/* ---------- Badge ---------- */
+.badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.3s, color 0.3s;
+}
+.badge-info { background: var(--blue-bg); color: var(--blue); }
+.badge-ready { background: var(--green-bg); color: var(--green); }
+.badge-done { background: var(--disabled); color: var(--muted); }
+
+.status-heading { font-size: 18px; font-weight: 800; margin-top: 14px; }
+.status-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ---------- Stepper ---------- */
+.steps { --p: 0; position: relative; display: flex; margin-top: 22px; }
+.steps::before,
+.steps::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 12.5%;
+  height: 3px;
+  border-radius: 2px;
+}
+.steps::before { right: 12.5%; background: var(--border); }
+.steps::after {
+  width: calc(75% * var(--p));
+  background: var(--accent);
+  transition: width 0.8s var(--ease);
+}
+.step {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  transition: color 0.3s;
+}
+.step.active { color: var(--ink); }
+.dot {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 2px solid #C9BBA8;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease);
+}
+.dot svg { display: none; }
+.step.done .dot { background: var(--accent); border-color: var(--accent); }
+.step.done .dot svg { display: block; }
+.step.current .dot { border: 2.5px solid var(--accent); transform: scale(1.08); }
+.step.current .dot::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 50% { transform: scale(0.55); opacity: 0.6; } }
+
+/* ---------- Kode ambil ---------- */
+.code-card { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.card-label { font-size: 14px; font-weight: 800; }
+.qr {
+  width: 156px;
+  height: 156px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.qr svg { width: 100%; height: 100%; display: block; }
+.code { font-size: 20px; font-weight: 800; letter-spacing: 0.08em; }
+.code-note { font-size: 12px; color: var(--muted); margin-top: -8px; }
+
+/* ---------- Info ---------- */
+.info { display: flex; justify-content: space-between; gap: 12px; }
+.info-item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.label { font-size: 12px; color: var(--muted); }
+.info-item .value { font-size: 14px; font-weight: 800; }
+
+/* ---------- Rincian ---------- */
+.detail h2 { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+.row .price { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.note-row { font-size: 12px; margin-top: 8px; }
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+  font-weight: 800;
+}
+.total .amount { color: var(--accent); }
+
+/* ---------- Tombol ---------- */
+.actions { display: flex; flex-direction: column; gap: 10px; margin-top: 2px; }
+.btn-solid,
+.btn-outline {
+  height: 48px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  transition: background 0.2s, color 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
+}
+.btn-solid { background: var(--accent); color: #fff; box-shadow: 0 10px 20px -10px rgba(194, 65, 12, 0.7); }
+.btn-solid:hover { background: var(--accent-dark); }
+.btn-outline { border: 1.5px solid var(--accent); color: var(--accent); background: transparent; }
+.btn-outline:hover { background: var(--accent-soft); }
+.btn-solid:active, .btn-outline:active { transform: scale(0.98); }
+.btn-cancel { padding: 8px; font-size: 14px; font-weight: 800; color: #991B1B; transition: opacity 0.2s; }
+.btn-cancel:hover { opacity: 0.7; text-decoration: underline; }
+
+/* ---------- Kondisi kosong ---------- */
+.empty-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 20px; text-align: center; }
+.empty-icon { font-size: 44px; line-height: 1; }
+.empty-card h2 { font-size: 18px; font-weight: 800; }
+.empty-card p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.empty-card .btn-solid { width: 100%; }
+
+/* ---------- Navbar bawah ---------- */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--w);
+  height: 66px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  z-index: 50;
+}
+.navbar ul { display: flex; height: 100%; }
+.navbar li { flex: 1; }
+.navbar a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.navbar a:hover { color: var(--accent-dark); }
+.navbar a.active { color: var(--accent); }
+.navbar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s var(--ease); }
+.navbar a:active svg { transform: scale(0.88); }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FBF6EE" />
+  <title>Status pesanan - SmartCanteen Rush</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="status.css" />
+</head>
+<body data-page="status">
+  <main class="page">
+    <h1 class="title">Status pesanan</h1>
+
+    <!-- Kondisi kosong: belum ada pesanan -->
+    <section class="card empty-card" id="statusEmpty" hidden>
+      <div class="empty-icon" aria-hidden="true">🧾</div>
+      <h2>Belum ada pesanan aktif</h2>
+      <p>Pilih kios favoritmu, pesan dulu, lalu ambil tanpa antre.</p>
+      <button class="btn-solid" id="emptyBtn" type="button">Mulai pesan</button>
+    </section>
+
+    <div class="content" id="statusContent" hidden>
+      <p class="subtitle" id="stallTitle">Nama kios</p>
+
+      <section class="card">
+        <span class="badge badge-info" id="statusBadge">Diterima</span>
+        <h2 class="status-heading" id="statusHeading">Pesanan diterima</h2>
+        <p class="status-note" id="statusNote"></p>
+        <ol class="steps" id="steps" style="--p: 0">
+          <li class="step active current"><span class="dot"><svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5L4.6 8 12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>Diterima</li>
+          <li class="step"><span class="dot"><svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5L4.6 8 12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>Dimasak</li>
+          <li class="step"><span class="dot"><svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5L4.6 8 12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>Siap diambil</li>
+          <li class="step"><span class="dot"><svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5L4.6 8 12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>Selesai</li>
+        </ol>
+      </section>
+
+      <section class="card code-card">
+        <h2 class="card-label">Kode ambil</h2>
+        <div class="qr" id="qr"></div>
+        <p class="code" id="pickupCode">ABC-000</p>
+        <p class="code-note">Tunjukkan ke kios saat mengambil</p>
+      </section>
+
+      <section class="card info">
+        <div class="info-item"><span class="label">Jam ambil</span><span class="value" id="infoSlot">-</span></div>
+        <div class="info-item"><span class="label">Lokasi</span><span class="value" id="infoLocation">Kantin FILKOM UB</span></div>
+        <div class="info-item"><span class="label">Pembayaran</span><span class="value" id="infoPay">-</span></div>
+      </section>
+
+      <section class="card detail">
+        <h2>Rincian pesanan</h2>
+        <div id="detailRows"></div>
+        <div class="note-row" id="noteRow" hidden><span class="label">Catatan:</span> <span id="noteText"></span></div>
+        <div class="total"><span>Total</span><span class="amount" id="detailTotal">Rp 0</span></div>
+      </section>
+
+      <div class="actions">
+        <button class="btn-solid" id="pickedBtn" type="button" hidden>Saya sudah mengambil pesanan</button>
+        <button class="btn-outline" id="contactBtn" type="button">Hubungi kios</button>
+        <button class="btn-solid" id="homeBtn" type="button">Kembali ke beranda</button>
+        <button class="btn-cancel" id="cancelBtn" type="button">Batalkan pesanan</button>
+      </div>
+    </div>
+  </main>
+
+  <nav class="navbar" aria-label="Navigasi utama">
+    <ul>
+      <li><a href="index.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>Beranda</a></li>
+      <li><a class="active" href="status.html" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6" /></svg>Pesanan</a></li>
+      <li><a href="#" data-soon>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>Riwayat</a></li>
+      <li><a href="#" data-soon>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>Profil</a></li>
+    </ul>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+/* SmartCanteen Rush — Menu (menu.html) */
+/* ==========================================================================
+   BASE — token, reset, shell halaman, toast
+   (blok ini sengaja sama di setiap file CSS agar tiap halaman mandiri)
+   ========================================================================== */
+:root {
+  --canvas: #EFE4D3;
+  --bg: #FBF6EE;
+  --card: #FFFFFF;
+  --ink: #2B1D14;
+  --muted: #6B5B4E;
+  --border: #EADFCF;
+  --accent: #C2410C;
+  --accent-dark: #9A3412;
+  --accent-soft: #FDE7D6;
+  --tan: #C9A27A;
+  --green: #166534;
+  --green-bg: #DCFCE7;
+  --blue: #1E40AF;
+  --blue-bg: #DBEAFE;
+  --disabled: #EEE8DF;
+  --shadow-sm: 0 1px 2px rgba(43, 29, 20, 0.06);
+  --shadow-md: 0 10px 24px -10px rgba(43, 29, 20, 0.25);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --w: 428px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: "Nunito", -apple-system, Roboto, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  line-height: 1.35;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile-first: lebar penuh di HP, kolom 428px di tengah layar saat di desktop */
+.page {
+  width: 100%;
+  max-width: var(--w);
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--bg);
+  position: relative;
+}
+@media (min-width: 480px) {
+  .page { box-shadow: 0 0 0 1px var(--border), 0 24px 60px -24px rgba(43, 29, 20, 0.3); }
+}
+
+button, input { font: inherit; color: inherit; }
+button { border: 0; background: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  z-index: 100;
+  max-width: calc(100% - 36px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* ==========================================================================
+   HALAMAN
+   ========================================================================== */
+
+.page { padding: 24px 18px 110px; }
+
+/* ---------- Topbar ---------- */
+.topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.topbar h1 { flex: 1; min-width: 0; font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.icon-btn {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s var(--ease), border-color 0.2s, color 0.2s;
+}
+.icon-btn-muted { color: var(--muted); }
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.icon-btn:active { transform: scale(0.92); }
+
+.searchbar { margin-bottom: 14px; animation: drop 0.25s var(--ease); }
+.searchbar input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  outline: 0;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.searchbar input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12); }
+@keyframes drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Info kios ---------- */
+.restaurant {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px;
+  margin-bottom: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.restaurant-img { flex: none; width: 68px; height: 68px; border-radius: 14px; overflow: hidden; background: var(--accent-soft); }
+.restaurant-img img { width: 100%; height: 100%; object-fit: cover; }
+.restaurant-info { flex: 1; min-width: 0; }
+.restaurant-info h2 { font-size: 17px; font-weight: 800; line-height: 1.25; margin-bottom: 3px; }
+.restaurant-info p { font-size: 12px; color: var(--muted); }
+.badge-open {
+  align-self: flex-start;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--green-bg);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---------- Tab kategori ---------- */
+.tabs {
+  display: flex;
+  gap: 22px;
+  margin: 0 -18px 18px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none;
+  padding: 4px 2px 9px;
+  margin-bottom: -1px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s, border-color 0.25s var(--ease);
+}
+.tab:hover { color: var(--accent-dark); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- Daftar menu ---------- */
+.category-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+.menu-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.menu-card {
+  display: flex;
+  gap: 12px;
+  padding: 11px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s;
+}
+.menu-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--tan); }
+.menu-img { flex: none; width: 88px; height: 88px; border-radius: 12px; overflow: hidden; background: var(--accent-soft); }
+.menu-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--ease); }
+.menu-card:hover .menu-img img { transform: scale(1.07); }
+.menu-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
+.menu-name { font-size: 14px; font-weight: 800; line-height: 1.3; }
+.menu-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.menu-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; min-height: 34px; }
+.price { font-size: 14px; font-weight: 800; color: var(--accent); }
+
+.add-btn {
+  width: 36px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  transition: background 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
+}
+.add-btn:hover { background: var(--accent-dark); box-shadow: 0 6px 14px -6px rgba(194, 65, 12, 0.7); }
+.add-btn:active { transform: scale(0.88); }
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  animation: pop 0.2s var(--ease);
+}
+.qty button {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--accent);
+  transition: background 0.2s, transform 0.15s var(--ease);
+}
+.qty button:hover { background: rgba(194, 65, 12, 0.14); }
+.qty button:active { transform: scale(0.85); }
+.qty-num { min-width: 22px; text-align: center; font-size: 14px; font-weight: 800; }
+.qty-num.bump { animation: bump 0.25s var(--ease); }
+@keyframes pop { from { transform: scale(0.85); opacity: 0.4; } to { transform: none; opacity: 1; } }
+@keyframes bump { 40% { transform: scale(1.35); } }
+
+.badge-sold {
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--disabled);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+.menu-card.unavailable { background: #FAF7F2; }
+.menu-card.unavailable:hover { transform: none; box-shadow: none; border-color: var(--border); }
+.menu-card.unavailable .menu-img img { filter: grayscale(1); opacity: 0.55; }
+.menu-card.unavailable .menu-name,
+.menu-card.unavailable .price { color: var(--muted); }
+.empty { padding: 30px 12px; text-align: center; color: var(--muted); font-size: 14px; }
+
+/* ---------- Bar keranjang ---------- */
+.cartbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--w);
+  padding: 14px 18px 18px;
+  background: linear-gradient(to top, var(--bg) 70%, rgba(251, 246, 238, 0));
+  z-index: 50;
+}
+.cartbar-btn {
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 12px 24px -10px rgba(194, 65, 12, 0.7);
+  transition: background 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
+}
+.cartbar-btn:hover { background: var(--accent-dark); }
+.cartbar-btn:active { transform: scale(0.98); }
+.cb-info { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+.cb-info small { font-size: 12px; font-weight: 600; opacity: 0.9; }
+.cb-info b { font-size: 16px; font-weight: 800; }
+.cb-action { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; }
+.cb-action svg { transition: transform 0.2s var(--ease); }
+.cartbar-btn:hover .cb-action svg { transform: translateX(3px); }
+.cartbar.is-empty .cartbar-btn { background: #C9BBA8; box-shadow: none; }

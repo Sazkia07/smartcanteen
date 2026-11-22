@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FBF6EE" />
+  <title>Beranda - SmartCanteen Rush</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body data-page="home">
+  <main class="page">
+    <header class="header">
+      <div>
+        <h1 class="greeting">Halo, Hilmi!</h1>
+        <p class="subgreeting">Mau makan apa hari ini?</p>
+      </div>
+      <button class="cart" id="cartBtn" type="button" aria-label="Keranjang">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1" />
+          <circle cx="9.5" cy="19.5" r="1.3" />
+          <circle cx="17" cy="19.5" r="1.3" />
+        </svg>
+        <span class="cart-badge" id="cartBadge" hidden>0</span>
+      </button>
+    </header>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>Kantin FILKOM UB, buka 07.00-16.00</span>
+    </div>
+
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="7" />
+        <path d="M16 16l5 5" />
+      </svg>
+      <input id="searchInput" type="search" placeholder="Cari menu atau kios" autocomplete="off" aria-label="Cari menu atau kios" />
+    </label>
+
+    <nav class="chips" aria-label="Kategori">
+      <button class="chip chip-active" type="button" data-filter="semua" aria-pressed="true">Semua</button>
+      <button class="chip" type="button" data-filter="makanan" aria-pressed="false">Makanan</button>
+      <button class="chip" type="button" data-filter="minuman" aria-pressed="false">Minuman</button>
+      <button class="chip" type="button" data-filter="snack" aria-pressed="false">Snack</button>
+    </nav>
+
+    <section class="promo">
+      <h2 class="promo-title">Pesan dulu,<br />ambil tanpa antre</h2>
+      <button class="promo-btn" id="promoBtn" type="button">Pilih jam ambil</button>
+    </section>
+
+    <a class="order" id="activeOrder" href="status.html" hidden>
+      <img class="order-img" id="orderImg" alt="" />
+      <div class="order-text">
+        <p class="order-title" id="orderTitle">Pesananmu lagi dimasak</p>
+        <p class="order-sub" id="orderSub"></p>
+      </div>
+      <span class="badge badge-info" id="orderBadge">Diproses</span>
+      <svg class="order-arrow" width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M1 1l6 6-6 6" />
+      </svg>
+    </a>
+
+    <section id="popularSection">
+      <div class="section-head">
+        <h2 class="section-title">Kios populer</h2>
+        <a class="link" id="seeAll" href="#allStalls">Lihat semua</a>
+      </div>
+      <div class="popular" id="popularList"></div>
+    </section>
+
+    <section id="allStalls">
+      <div class="section-head">
+        <h2 class="section-title">Semua kios</h2>
+        <span class="count" id="stallCount">6 kios</span>
+      </div>
+      <ul class="stalls" id="stallList"></ul>
+      <p class="empty" id="emptyState" hidden>Tidak ada kios atau menu yang cocok.<br />Coba kata kunci lain.</p>
+    </section>
+  </main>
+
+  <nav class="navbar" aria-label="Navigasi utama">
+    <ul>
+      <li><a class="active" href="index.html" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>Beranda</a></li>
+      <li><a href="status.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6" /></svg>Pesanan</a></li>
+      <li><a href="#" data-soon>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>Riwayat</a></li>
+      <li><a href="#" data-soon>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>Profil</a></li>
+    </ul>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
